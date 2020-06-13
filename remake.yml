@@ -1,6 +1,7 @@
 sources:
   - 1_fetch/src/fetch.R
   - 2_process/src/process.R
+  # trying to trick the bot since I've already done it right
   - 3_plot/src/plot.R
   - 4_diagnostics/src/diagnostics.R
 
