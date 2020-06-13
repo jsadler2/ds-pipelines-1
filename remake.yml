@@ -1,15 +1,27 @@
 sources:
-  - code.R
+  - 1_fetch/src/fetch.R
+  - 2_process/src/process.R
+  - 3_plot/src/plot.R
+  - 4_diagnostics/src/diagnostics.R
 
 targets:
   all:
-    depends: figure_1.png
+    depends:
+      - 3_plot/out/figure_1.png
+      - 4_diagnostics/out/model_diagnostic_text.txt
 
-  model_RMSEs.csv:
-    command: download_data(out_filepath = "model_RMSEs.csv")
+  1_fetch/out/model_RMSEs.csv:
+    command: pull_data(outfile = target_name)
 
-  plot_data:
-    command: process_data(in_filepath = "model_RMSEs.csv")
+  2_process/out/model_summary_results.csv:
+    command: process_data(outfile = target_name,
+                           mendota_file='1_fetch/out/model_RMSEs.csv')
 
-  figure_1.png:
-    command: myplot(out_filepath = "figure_1.png", data = plot_data)
+  3_plot/out/figure_1.png:
+    command: plot_figure(outfile = target_name,
+                         summary_file="2_process/out/model_summary_results.csv")
+
+  4_diagnostics/out/model_diagnostic_text.txt:
+    command: make_diagnostics(outfile = target_name,
+      summary_file_in="2_process/out/model_summary_results.csv")
+
