@@ -1,0 +1,30 @@
+sources:
+  - 1_fetch/src/fetch.R
+  - 2_process/src/process.R
+  # trying to trick the bot since I've already done it right
+  - 3_plot/src/plot.R
+  - 4_diagnostics/src/diagnostics.R
+
+targets:
+  all:
+    depends:
+      - 1_fetch/out/model_RMSEs.csv
+      - 2_process/model_summary_results.csv
+      - 3_plot/out/figure_1.png
+      - 4_diagnostics/out/model_diagnostic_text.txt
+
+  1_fetch/out/model_RMSEs.csv:
+    command: pull_data(outfile = target_name)
+
+  2_process/out/model_summary_results.csv:
+    command: process_data(outfile = target_name,
+                           mendota_file='1_fetch/out/model_RMSEs.csv')
+
+  3_plot/out/figure_1.png:
+    command: plot_figure(outfile = target_name,
+                         summary_file="2_process/out/model_summary_results.csv")
+
+  4_diagnostics/out/model_diagnostic_text.txt:
+    command: make_diagnostics(outfile = target_name,
+      summary_file_in="2_process/out/model_summary_results.csv")
+
