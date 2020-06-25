@@ -16,5 +16,5 @@ process_data <- function(mendota_file, outfile){
             model_type == 'pgdl' ~ 23
         ), n_prof = as.numeric(str_extract(exper_id, '[0-9]+')))
     
-    readr::write_csv(eval_data, path = file.path(outfile))
+    readr::write_csv(eval_data, path = outfile)
 }
