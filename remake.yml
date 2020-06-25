@@ -8,6 +8,8 @@ sources:
 targets:
   all:
     depends:
+      - 1_fetch/out/model_RMSEs.csv
+      - 2_process/model_summary_results.csv
       - 3_plot/out/figure_1.png
       - 4_diagnostics/out/model_diagnostic_text.txt
 
